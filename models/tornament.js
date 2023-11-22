@@ -28,6 +28,7 @@ const tornamentSchema = new Schema({
   ],
 });
 
+
 const Tournament = mongoose.model("Tournament", tornamentSchema);
 
 module.exports = Tournament;

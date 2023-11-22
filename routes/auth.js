@@ -81,17 +81,16 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Missing Details" });
     } else {
       const user = await User.findOne({ email }).lean();
-      console.log(user);
       if (user && user.role === role) {
         // console.log("user found");
-        const fl = await bcrypt.compare(password, user.password);
-        console.log(fl);
-        if (fl == true) {
+        const passwordCompare = await bcrypt.compare(password, user.password);
+        if (passwordCompare == true) {
           const tokenData = jwt.sign(user, process.env.SECRET);
           const data = {
-            user: user._id,
+            user: user,
             tokenData: tokenData,
           };
+          
           console.log(data);
           res.status(201).json({ data });
         } else {
